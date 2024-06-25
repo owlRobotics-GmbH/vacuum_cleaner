@@ -3,7 +3,7 @@ Python firmware (highly experimental) for Neato vacuum cleaner robot and simulat
 
 The robot is equipped with two gear motors and with 2D LiDAR sensor - this is the only sensor used in this code. The LiDAR sensor is used for mapping & localization (aka 'SLAM') and obstacle detection.
 
-https://github.com/owlRobotics-GmbH/vacuum_cleaner/assets/11735886/c81ce72c-9d9d-46ee-84f5-e70d5557ff79
+![Uploading cleaner.gif…]()
 
 # How does it work
 1. Phase 'exploring': Using only the LiDAR sensor, the robot follows the walls until it gets back to it's start position.
