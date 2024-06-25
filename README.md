@@ -1,5 +1,5 @@
 # Description
-Python firmware (highly experimental) for Neato vacuum cleaner robot and simulator
+Python clean algorithm (highly experimental) for Neato vacuum cleaner robot and simulator
 
 The robot is equipped with two gear motors and with 2D LiDAR sensor - this is the only sensor used in this code. The LiDAR sensor is used for mapping & localization (aka 'SLAM') and obstacle detection.
 
