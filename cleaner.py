@@ -136,7 +136,7 @@ class Cleaner():
         self.slam = RMHC_SLAM(LaserModel(), MAP_SIZE_PIXELS, MAP_SIZE_METERS, map_quality=1)
 
         # Set up a SLAM display
-        self.viz = MapVisualizer(MAP_SIZE_PIXELS, MAP_SIZE_METERS, 'SLAM', show_trajectory=False)
+        self.viz = MapVisualizer(MAP_SIZE_PIXELS, MAP_SIZE_METERS, 'SLAM', show_trajectory=False, save_figures= args.savefig)
 
         # Initialize an empty trajectory
         self.trajectory = []
@@ -624,6 +624,7 @@ if __name__ == '__main__':
     try:
         parser = argparse.ArgumentParser(description='cleaner')    
         parser.add_argument('-s','--sim', action='store_true', help='simulator',required=False)    
+        parser.add_argument('-f','--savefig', action='store_true', help='save figures',required=False)    
         args = parser.parse_args()
 
         cleaner = Cleaner(args)

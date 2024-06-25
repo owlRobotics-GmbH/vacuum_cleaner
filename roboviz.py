@@ -24,6 +24,7 @@ import matplotlib.cm as colormap
 import matplotlib.lines as mlines
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
+import cv2
 
 # This helps with Raspberry Pi
 import matplotlib
@@ -38,10 +39,10 @@ class Visualizer(object):
     ROBOT_HEIGHT_M = 0.5
     ROBOT_WIDTH_M  = 0.3
 
-    def __init__(self, map_size_pixels, map_size_meters, title, show_trajectory=False, zero_angle=0):
+    def __init__(self, map_size_pixels, map_size_meters, title, show_trajectory=False, zero_angle=0, save_figures = False):
 
         # Put origin in center
-        self._init(map_size_pixels, map_size_meters, title, -map_size_pixels / 2, show_trajectory, zero_angle)
+        self._init(map_size_pixels, map_size_meters, title, -map_size_pixels / 2, show_trajectory, zero_angle, save_figures)
 
     def display(self, x_m, y_m, theta_deg):
 
@@ -49,7 +50,13 @@ class Visualizer(object):
 
         return self._refresh()
 
-    def _init(self, map_size_pixels, map_size_meters, title, shift, show_trajectory=False, zero_angle=0):
+    def _init(self, map_size_pixels, map_size_meters, title, shift, show_trajectory=False, zero_angle=0, save_figures = False):
+
+        self.save_figures = save_figures
+        if self.save_figures:
+            fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+            self.video=cv2.VideoWriter('out/cleaner.avi',fourcc,30,(500,500))
+
 
         # Store constants for update
         map_size_meters = map_size_meters
@@ -60,12 +67,12 @@ class Visualizer(object):
         self.bgrbytes = bytearray(map_size_pixels * map_size_pixels * 3)
         
         # Make a nice big (10"x10") figure
-        fig = plt.figure(figsize=(10,10))
+        self.fig = plt.figure(figsize=(10,10))
 
         # Store Python ID of figure to detect window close
-        self.figid = id(fig)
+        self.figid = id(self.fig)
 
-        fig.suptitle('SLAM')        
+        self.fig.suptitle('SLAM')        
         #fig.canvas.set_window_title('SLAM')
         plt.title(title)
 
@@ -78,7 +85,7 @@ class Visualizer(object):
         self.vehicle = None
 
         # Create axes
-        self.ax = fig.gca()
+        self.ax = self.fig.gca()
         self.ax.set_xlabel('X (m)')
         self.ax.set_ylabel('Y (m)')
         self.ax.grid(False)
@@ -103,6 +110,8 @@ class Visualizer(object):
         self.zero_angle = zero_angle
         self.start_angle = None
         self.rotate_angle = 0
+
+        
 
     def _setPose(self, x_m, y_m, theta_deg):
         '''
@@ -160,7 +169,16 @@ class Visualizer(object):
         # Refresh display, setting flag on window close or keyboard interrupt
         try:
             plt.pause(.001) # Arbitrary pause to force redraw
-            #plt.savefig('out/foo.png')
+            if self.save_figures:
+                plt.savefig('out/fig.png')
+                img = cv2.imread('out/fig.png')
+                img = cv2.resize(img, (500,500), interpolation = cv2.INTER_NEAREST)             
+                print(img.shape)
+                #self.fig.canvas.draw()
+                #img = np.array(plt.canvas.renderer.buffer_rgba())
+                #img = cv2.cvtColor(img, cv2.COLOR_RGBA2BGR)
+                #cv2.imshow('img', img)
+                self.video.write(img)
             return True
         except:
             print('refresh exception')
@@ -176,10 +194,10 @@ class Visualizer(object):
     
 class MapVisualizer(Visualizer):
     
-    def __init__(self, map_size_pixels, map_size_meters, title='MapVisualizer', show_trajectory=False):
+    def __init__(self, map_size_pixels, map_size_meters, title='MapVisualizer', show_trajectory=False, save_figures=False):
 
         # Put origin in lower left; disallow zero-angle setting
-        Visualizer._init(self, map_size_pixels, map_size_meters, title, 0, show_trajectory, 0)
+        Visualizer._init(self, map_size_pixels, map_size_meters, title, 0, show_trajectory, 0, save_figures)
 
     def display(self, x_m, y_m, theta_deg, mapimg, cleanimg, routeimg):
 
