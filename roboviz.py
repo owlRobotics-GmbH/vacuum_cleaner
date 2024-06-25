@@ -54,8 +54,8 @@ class Visualizer(object):
 
         self.save_figures = save_figures
         if self.save_figures:
-            fourcc = cv2.VideoWriter_fourcc(*'MJPG')
-            self.video=cv2.VideoWriter('out/cleaner.avi',fourcc,30,(500,500))
+            fourcc = cv2.VideoWriter_fourcc(*'MP4V')
+            self.video=cv2.VideoWriter('out/cleaner.mp4',fourcc,30,(500,500))
 
 
         # Store constants for update
