@@ -11,8 +11,8 @@ The robot is equipped with two gear motors and with 2D LiDAR sensor - this is th
 Type this into your Linux terminal:
 1. git clone https://github.com/owlRobotics-GmbH/vacuum_cleaner
 2. pip install -r requirements.txt
-3. python cleaner.py --sim  (for simulator)
-   OR:  python cleaner.py   (for Neato robot connected via serial USB)
+3. python cleaner.py --sim    (for simulator)
+4. python cleaner.py   (for Neato robot connected via serial USB)
 
 # Where to go from here
 * Build your own robot with owlRobotics platform (https://github.com/owlRobotics-GmbH/owlRobotPlatform)

@@ -18,8 +18,23 @@ but WITHOUT ANY WARRANTY without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 -------------
+The robot is equipped with two gear motors and with 2D LiDAR sensor - this is the only sensor used in this code. The LiDAR sensor is used for mapping & localization (aka 'SLAM') and obstacle detection.
 
-installation:
+1. How does it work
+Phase 1 ('exploring'): Using only the LiDAR sensor, the robot follows the walls until it gets back to it's start position.
+Phase 2 ('cleaning'): The robot looks in the local area for free cells as targets. If there are no targets in the local area, it performs a global search for a free cell (using 'astar algorithm'). 
+   
+3. How to install and run
+git clone https://github.com/owlRobotics-GmbH/vacuum_cleaner
+pip install -r requirements.txt
+python cleaner.py
+
+4. Where to go from here
+* Build your own robot with owlRobotics platform (https://github.com/owlRobotics-GmbH/owlRobotPlatform)
+* Start your carreer at owlRobotics (https://owlrobotics.de/index.php/en/home-of-robotic-solutions/careers)
+* ...
+
+5. Further tips for manual installation:
 1. conda remove -n py37 --all
 2. conda create -n py37 python=3.7
 3. conda activate py37
@@ -36,9 +51,6 @@ ROBOT_DEVICE_PATH            =   '/dev/serial/by-id/usb-Linux_2.6.33.7_with_fsl-
 MAP_SIZE_METERS            = 10
 MAP_SCALE_METERS_PER_PIXEL = 0.05
 MAP_SIZE_PIXELS            = int(MAP_SIZE_METERS / MAP_SCALE_METERS_PER_PIXEL)     # 200
-
-
-USE_SIM = True  # use simulator?
 
 
 MIN_SAMPLES   = 200
@@ -63,6 +75,7 @@ from collections import deque
 import robot
 import sim
 import utils
+import argparse
 
 
 STATE_STOP         = 0 
@@ -87,7 +100,7 @@ WALL_STATES = ['right', 'sharp_right', 'back', 'recover']
 
 
 class Cleaner():
-    def __init__(self):
+    def __init__(self, args):
         self.state = STATE_FOLLOW_WALL
         #self.state = STATE_CLEAN        
         self.wallState = WALL_DRIVE_RIGHT
@@ -95,6 +108,7 @@ class Cleaner():
         self.robot_x = 0
         self.robot_y = 0
         self.robot_theta = 0
+        self.sim = args.sim 
 
         print('MAP_SIZE_METERS', MAP_SIZE_METERS)
         print('MAP_SIZE_PIXELS', MAP_SIZE_PIXELS)        
@@ -111,7 +125,7 @@ class Cleaner():
         self.boundaryimg = None
 
         # Connect to robot (or simulator)
-        if USE_SIM:
+        if self.sim:
             self.robot = sim.Sim()                             
         else:
             self.robot = robot.Robot(ROBOT_DEVICE_PATH)                             
@@ -173,13 +187,13 @@ class Cleaner():
         self.laneCounter = 0
         self.goalAngle = 0
         self.turnLeft = False
-        if USE_SIM and self.load():
+        if self.sim and self.load():
             self.state = STATE_CLEAN
 
 
 
     def save(self):
-        if not USE_SIM: return
+        if not self.sim: return
         print('saving state...')
         print('mapbytes:', len(self.mapbytes))            
         with open('data/mapbytes.bin', 'wb') as f:  
@@ -607,13 +621,14 @@ class Cleaner():
 
 
 if __name__ == '__main__':
-
-    
     try:
-        cleaner = Cleaner()
+        parser = argparse.ArgumentParser(description='cleaner')    
+        parser.add_argument('-s','--sim', action='store_true', help='simulator',required=False)    
+        args = parser.parse_args()
+
+        cleaner = Cleaner(args)
         while True:
             cleaner.run()
-
 
     except Exception:
         traceback.print_exc()
