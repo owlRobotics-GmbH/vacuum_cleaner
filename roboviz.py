@@ -160,6 +160,7 @@ class Visualizer(object):
         # Refresh display, setting flag on window close or keyboard interrupt
         try:
             plt.pause(.001) # Arbitrary pause to force redraw
+            #plt.savefig('out/foo.png')
             return True
         except:
             print('refresh exception')
@@ -188,7 +189,6 @@ class MapVisualizer(Visualizer):
 
         # Pause to allow display to refresh
         plt.pause(.001)
-        #plt.savefig('foo.png')
 
         if self.img_artist is None:
 
