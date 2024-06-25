@@ -17,7 +17,7 @@ Simulator session run (a simulator for running the code is built-in - click on '
 2. Phase 'cleaning': The robot looks in the local area for free cells as targets. If there are no targets in the local area, it performs a global search for a free cell (using 'astar algorithm'). 
    
 # How to install and run
-Type this into your Python3 environment (tested only on Linux terminal):
+Type this into your Python3 environment (tested only on Linux Anaconda Python3.7 environment):
 1. git clone https://github.com/owlRobotics-GmbH/vacuum_cleaner
 2. pip install -r requirements.txt
 3. python cleaner.py --sim    (for simulator)
