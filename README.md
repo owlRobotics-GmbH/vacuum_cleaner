@@ -20,7 +20,7 @@ Type this into your Python3 environment (tested only on Linux terminal):
 4. python cleaner.py   (for Neato robot connected via serial USB)
 
 # Where to go from here
-* Tune the code
+* Try out the code and tune it
 * Build your own robot with owlRobotics platform (https://github.com/owlRobotics-GmbH/owlRobotPlatform)
 * Start your carreer at owlRobotics (https://owlrobotics.de/index.php/en/home-of-robotic-solutions/careers)
 * ...
