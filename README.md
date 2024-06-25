@@ -19,6 +19,7 @@ Type this into your Linux terminal:
 4. python cleaner.py   (for Neato robot connected via serial USB)
 
 # Where to go from here
+* Tune the code
 * Build your own robot with owlRobotics platform (https://github.com/owlRobotics-GmbH/owlRobotPlatform)
 * Start your carreer at owlRobotics (https://owlrobotics.de/index.php/en/home-of-robotic-solutions/careers)
 * ...
