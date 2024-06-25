@@ -1,0 +1,8 @@
+BreezySLAM/python
+matplotlib
+numpy
+opencv-contrib-python
+opencv-python
+pyaml
+pyserial
+shapely
