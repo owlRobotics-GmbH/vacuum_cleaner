@@ -8,7 +8,7 @@ The robot can be controlled via serial USB interface from this Python software:
 <img src="https://github.com/owlRobotics-GmbH/vacuum_cleaner/assets/11735886/b2d57bc4-9c65-4377-91f6-1766eb2d07bf" width="400" />
 <br>
 
-Simulator session run (a simulator for running the code is built-in):
+Simulator session run (a simulator for running the code is built-in - click on 'play' button for playback):
 
 <img src="https://github.com/owlRobotics-GmbH/vacuum_cleaner/assets/11735886/416891d8-e6c8-41a9-867d-8b3552c1f8fe" />
 
