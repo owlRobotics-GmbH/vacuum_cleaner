@@ -9,7 +9,7 @@ The robot is equipped with two gear motors and with 2D LiDAR sensor - this is th
 <img src="https://github.com/owlRobotics-GmbH/vacuum_cleaner/assets/11735886/416891d8-e6c8-41a9-867d-8b3552c1f8fe" />
 
 # How does it work
-1. Phase 'exploring': Using only the LiDAR sensor, the robot follows the walls until it gets back to it's start position.
+1. Phase 'exploring': Using only the LiDAR sensor, the robot follows the walls until it gets back to its start position.
 2. Phase 'cleaning': The robot looks in the local area for free cells as targets. If there are no targets in the local area, it performs a global search for a free cell (using 'astar algorithm'). 
    
 # How to install and run
