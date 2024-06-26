@@ -326,11 +326,8 @@ class Cleaner():
             self.setRouteValue(mx, my, VAL_GOAL)
 
 
-    def routeToFreeCell(self):
-        tx = None
-        cx = int( round(self.robot_x / self.map_scale_meters_per_pixel))
-        cy = int( round(self.robot_y / self.map_scale_meters_per_pixel))        
-        
+    def findFreeLocalCellSpiral(self, cx, cy):
+        route = []
         mindist = 9999
         target_x = 0
         target_y = 0 
@@ -352,9 +349,17 @@ class Cleaner():
                             target_x = px 
                             target_y = py 
         if mindist < 9999:
-            route = []
             route.append([target_y, target_x])
-            return route 
+        return route
+
+
+    def routeToFreeCell(self):
+        cx = int( round(self.robot_x / self.map_scale_meters_per_pixel))
+        cy = int( round(self.robot_y / self.map_scale_meters_per_pixel))        
+        
+        route = self.findFreeLocalCellSpiral(cx, cy)
+        #print(route)
+        if len(route) != 0: return route 
         print('NO LOCAL CELL')       
         '''
         for y in range(MAP_SIZE_PIXELS-1,0,-1):
