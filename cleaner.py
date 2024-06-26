@@ -345,12 +345,12 @@ class Cleaner():
                         target_angle = np.arctan2(my-self.robot_y, mx-self.robot_x)
                         headingError = utils.distancePI(self.robot_theta, target_angle)
                         #print('headingError', headingError)
-                        if abs(headingError) < 0.5:
-                            dist = np.sqrt( abs(mx - self.robot_x) + abs(my - self.robot_y) )
-                            if dist < mindist:
-                                mindist = dist
-                                target_x = px 
-                                target_y = py 
+                        #if abs(headingError) < 0.5:
+                        dist = abs(headingError) * 10 + np.sqrt( abs(mx - self.robot_x) + abs(my - self.robot_y) )
+                        if dist < mindist:
+                            mindist = dist
+                            target_x = px 
+                            target_y = py 
         if mindist < 9999:
             route = []
             route.append([target_y, target_x])
