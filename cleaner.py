@@ -346,7 +346,7 @@ class Cleaner():
                         headingError = utils.distancePI(self.robot_theta, target_angle)
                         #print('headingError', headingError)
                         if abs(headingError) < 0.5:
-                            dist = np.sqrt( (mx - self.robot_x)**2 + (my - self.robot_y)**2 )
+                            dist = np.sqrt( abs(mx - self.robot_x) + abs(my - self.robot_y) )
                             if dist < mindist:
                                 mindist = dist
                                 target_x = px 

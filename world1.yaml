@@ -39,3 +39,14 @@ obstacles:
   velocity_y: 0
   acc_x: 0
   acc_y: 0
+
+ - #vehicle 3 
+  centroid_x: 1.2
+  centroid_y: -0.2
+  dx: 0.1
+  dy: 0.1
+  orientation: 20
+  velocity_x: 0.0
+  velocity_y: 0
+  acc_x: 0
+  acc_y: 0
