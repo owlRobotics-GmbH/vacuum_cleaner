@@ -353,35 +353,32 @@ class Cleaner():
         return route
 
 
+    def findFreeLocalCellLine(self, cx, cy):
+        ysign = 1
+        for y in range(0, 10):
+            for x in range(1, 10):
+                xsign = 1
+                for s in range(0, 1):
+                    px = cx + xsign * x
+                    py = cy + ysign * y 
+                    if px < MAP_SIZE_PIXELS and px >= 0 and py < MAP_SIZE_PIXELS and py >= 0:                
+                        if self.cleanimg[py, px] == VAL_FREE:                    
+                            return [[py, px]]            
+                    xsign *= -1
+            ysign *= -1
+
+        return []
+
+
     def routeToFreeCell(self):
         cx = int( round(self.robot_x / self.map_scale_meters_per_pixel))
         cy = int( round(self.robot_y / self.map_scale_meters_per_pixel))        
         
         route = self.findFreeLocalCellSpiral(cx, cy)
+        #route = self.findFreeLocalCellLine(cx, cy)        
         #print(route)
         if len(route) != 0: return route 
         print('NO LOCAL CELL')       
-        '''
-        for y in range(MAP_SIZE_PIXELS-1,0,-1):
-        #for y in range(0,MAP_SIZE_PIXELS):                    
-            for x in range(0, MAP_SIZE_PIXELS):
-                if self.cleanimg[y, x] == VAL_FREE:                    
-                    target = astar.Node(( y, x))
-                    #route.append( [y, x] )
-                    #print('routeToFreeCell ', x, y)
-                    #self.target_x = x * self.map_scale_meters_per_pixel
-                    #self.target_y = y * self.map_scale_meters_per_pixel
-                    #return route
-                    break
-            if not target is None: break
-        if target is None: return []
-        source = astar.Node((py, px))
-        #print('source', source, 'target', target)
-        end = astar.astar_find_target(self.cleanimg, source, target, 0)  
-        #print(end.g)
-        #print(Node.trace_path(end))
-        return astar.Node.trace_path(end)
-        '''
         s = astar.Node((cy, cx))
         #t = Node((4, 4))
         end = astar.astar_find_free(self.cleanimg, s, VAL_FREE, VAL_BARRIER)    
