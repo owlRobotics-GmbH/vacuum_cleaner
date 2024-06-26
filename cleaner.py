@@ -328,26 +328,34 @@ class Cleaner():
 
     def routeToFreeCell(self):
         tx = None
-        px = int( round(self.robot_x / self.map_scale_meters_per_pixel))
-        py = int( round(self.robot_y / self.map_scale_meters_per_pixel))        
+        cx = int( round(self.robot_x / self.map_scale_meters_per_pixel))
+        cy = int( round(self.robot_y / self.map_scale_meters_per_pixel))        
         
-        for x in range(-10, 10):
-            if px +x  < MAP_SIZE_PIXELS and px +x >= 0:
-                if self.cleanimg[py, px+x] == VAL_FREE:
-                    tx = (px+x) 
-                    ty = py 
-                    break
-        if tx is None:
-            for y in range(-10, 10):
-                if py +y  < MAP_SIZE_PIXELS and py +y >= 0:
-                    if self.cleanimg[py+y, px] == VAL_FREE:
-                        tx = px 
-                        ty = (py+y) 
-                        break
-        if not tx is None:
+        mindist = 9999
+        target_x = 0
+        target_y = 0 
+        for y in range(-10, 10):
+            for x in range(-10, 10):
+                px = cx + x
+                py = cy + y
+                if px < MAP_SIZE_PIXELS and px >= 0 and py < MAP_SIZE_PIXELS and py >= 0:                
+                    if self.cleanimg[py, px] == VAL_FREE:                    
+                        mx = px  * self.map_scale_meters_per_pixel
+                        my = py  * self.map_scale_meters_per_pixel
+                        target_angle = np.arctan2(my-self.robot_y, mx-self.robot_x)
+                        headingError = utils.distancePI(self.robot_theta, target_angle)
+                        #print('headingError', headingError)
+                        if abs(headingError) < 0.5:
+                            dist = np.sqrt( (mx - self.robot_x)**2 + (my - self.robot_y)**2 )
+                            if dist < mindist:
+                                mindist = dist
+                                target_x = px 
+                                target_y = py 
+        if mindist < 9999:
             route = []
-            route.append([ty, tx])
-            return route        
+            route.append([target_y, target_x])
+            return route 
+        print('NO LOCAL CELL')       
         '''
         for y in range(MAP_SIZE_PIXELS-1,0,-1):
         #for y in range(0,MAP_SIZE_PIXELS):                    
@@ -369,7 +377,7 @@ class Cleaner():
         #print(Node.trace_path(end))
         return astar.Node.trace_path(end)
         '''
-        s = astar.Node((py, px))
+        s = astar.Node((cy, cx))
         #t = Node((4, 4))
         end = astar.astar_find_free(self.cleanimg, s, VAL_FREE, VAL_BARRIER)    
         if end is None: return []
