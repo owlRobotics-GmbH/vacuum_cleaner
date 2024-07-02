@@ -24,7 +24,8 @@ Type this into your Python3 environment (tested only on Linux Anaconda Python3.7
 4. python cleaner.py   (for Neato robot connected via serial USB)
 
 # Where to go from here
-* Try out the code and tune it
+* Try out the code and tune it:
+- Add obstacle detection during cleaning, mark the cells in front of the robot as obstacles, and trigger the find route to next free cell code, e.g. also consider these obstacle cells in the astar-algorithm for finding the next free cell. 
 * Build your own robot with owlRobotics platform (https://github.com/owlRobotics-GmbH/owlRobotPlatform)
 * Start your carreer at owlRobotics (https://owlrobotics.de/index.php/en/home-of-robotic-solutions/careers)
 * ...
